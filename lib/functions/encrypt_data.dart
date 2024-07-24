@@ -34,8 +34,11 @@ String encryptData(
   return encryptedWithBothKeys;
 }
 
-Map<String, dynamic> decryptData(String encryptedData,
-    double encryptionKeyPositionPercent, double ivKeyPositionPercent) {
+Map<String, dynamic> decryptData(
+  String encryptedData, [
+  double encryptionKeyPositionPercent = 0.1,
+  double ivKeyPositionPercent = 0.6,
+]) {
   final lengthWithIv = encryptedData.length - 16;
   final ivPosition = (lengthWithIv * ivKeyPositionPercent).round();
   final ivKey = encryptedData.substring(ivPosition, ivPosition + 16);
