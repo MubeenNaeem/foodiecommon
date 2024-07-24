@@ -1,0 +1,32 @@
+name: foodiecommon
+description: "A new Flutter package project."
+version: 0.0.1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  encrypt: ^5.0.3
+  flutter:
+    sdk: flutter
+  hive: ^2.2.3
+  hive_flutter: any
+  http: ^1.2.0
+  intl: ^0.19.0
+  nanoid: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  hive_generator: any
+  build_runner: any
+
+
+flutter:
+  uses-material-design: true
+
+scripts:
+  p: git push -u origin main
+  bd: dart run build_runner build --delete-conflicting-outputs
