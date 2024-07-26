@@ -1,5 +1,7 @@
-String getOrderId(DateTime orderTime) {
-  int number = orderTime.millisecondsSinceEpoch;
+import 'package:foodiecommon/models/order_model.dart';
+
+String getOrderId(OrderModel order) {
+  int number = order.orderTime.millisecondsSinceEpoch;
 
   int length = 8;
   const String chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';

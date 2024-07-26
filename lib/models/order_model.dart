@@ -11,6 +11,9 @@ class OrderModel {
   final BranchModel? branch;
   final DateTime orderTime;
   final DateTime? processingTime;
+  final DateTime? shippedTime;
+  final DateTime? readyTime;
+  final DateTime? pickupTime;
   final DateTime? deliveryTime;
   final String status;
   final num? subtotal;
@@ -25,6 +28,8 @@ class OrderModel {
   final String orderType;
   final num? loyaltyPoints;
   final num? discount;
+  final String? platform;
+  final bool newCustomer;
 
   OrderModel({
     required this.id,
@@ -33,6 +38,9 @@ class OrderModel {
     this.branch,
     required this.orderTime,
     this.processingTime,
+    this.shippedTime,
+    this.readyTime,
+    this.pickupTime,
     this.deliveryTime,
     required this.status,
     this.subtotal,
@@ -47,6 +55,8 @@ class OrderModel {
     required this.orderType,
     this.loyaltyPoints,
     this.discount,
+    this.platform,
+    this.newCustomer = true,
   });
 
   factory OrderModel.fromMap(Map<String, dynamic> map) {
@@ -58,11 +68,19 @@ class OrderModel {
       rider: map['rider'] != null ? RiderModel.fromMap(map['rider']) : null,
       branch: map['branch'] != null ? BranchModel.fromMap(map['branch']) : null,
       orderTime: DateTime.parse(map['order_time']),
-      deliveryTime: map['delivery_time'] != null
-          ? DateTime.parse(map['delivery_time'])
-          : null,
       processingTime: map['processing_time'] != null
           ? DateTime.parse(map['processing_time'])
+          : null,
+      shippedTime: map['shipped_time'] != null
+          ? DateTime.parse(map['shipped_time'])
+          : null,
+      readyTime:
+          map['ready_time'] != null ? DateTime.parse(map['ready_time']) : null,
+      pickupTime: map['pickup_time'] != null
+          ? DateTime.parse(map['pickup_time'])
+          : null,
+      deliveryTime: map['delivery_time'] != null
+          ? DateTime.parse(map['delivery_time'])
           : null,
       status: map['status'],
       subtotal: map['subtotal'] ?? 0,
@@ -78,78 +96,8 @@ class OrderModel {
       orderType: map['order_type'],
       loyaltyPoints: map['loyalty_points'] ?? 0,
       discount: map['discount'] ?? 0,
-    );
-  }
-
-  factory OrderModel.fromMapWithoutModels(
-    Map<String, dynamic> map, {
-    CustomerModel? customerModel,
-    RiderModel? riderModel,
-    BranchModel? branchModel,
-    AddressModel? addressModel,
-    ReviewModel? reviewModel,
-  }) {
-    return OrderModel(
-      id: map['id'],
-      customer: null,
-      rider: null,
-      branch: null,
-      address: null,
-      review: null,
-      orderTime: DateTime.parse(map['order_time']),
-      deliveryTime: map['delivery_time'] != null
-          ? DateTime.parse(map['delivery_time'])
-          : null,
-      processingTime: map['processing_time'] != null
-          ? DateTime.parse(map['processing_time'])
-          : null,
-      status: map['status'],
-      subtotal: map['subtotal'] ?? 0,
-      tax: map['tax'] ?? 0,
-      deliveryCharges: map['delivery_charges'] ?? 0,
-      totalAmount: map['total_amount'],
-      paymentMethod: map['payment_method'],
-      items: map['items'],
-      notes: map['notes'],
-      orderType: map['order_type'],
-      loyaltyPoints: map['loyalty_points'] ?? 0,
-      discount: map['discount'] ?? 0,
-    );
-  }
-
-  OrderModel fromMapWithoutModels(
-    Map<String, dynamic> map, {
-    CustomerModel? customerModel,
-    RiderModel? riderModel,
-    BranchModel? branchModel,
-    AddressModel? addressModel,
-    ReviewModel? reviewModel,
-  }) {
-    return OrderModel(
-      id: map['id'],
-      customer: customerModel ?? (map['customer_id'] != null ? customer : null),
-      rider: riderModel ?? (map['rider_id'] != null ? rider : null),
-      branch: branchModel ?? (map['branch_id'] != null ? branch : null),
-      address: addressModel ?? (map['address_id'] != null ? address : null),
-      review: reviewModel ?? (map['review_id'] != null ? review : null),
-      orderTime: DateTime.parse(map['order_time']),
-      deliveryTime: map['delivery_time'] != null
-          ? DateTime.parse(map['delivery_time'])
-          : null,
-      processingTime: map['processing_time'] != null
-          ? DateTime.parse(map['processing_time'])
-          : null,
-      status: map['status'],
-      subtotal: map['subtotal'] ?? 0,
-      tax: map['tax'] ?? 0,
-      deliveryCharges: map['delivery_charges'] ?? 0,
-      totalAmount: map['total_amount'],
-      paymentMethod: map['payment_method'],
-      items: map['items'],
-      notes: map['notes'],
-      orderType: map['order_type'],
-      loyaltyPoints: map['loyalty_points'] ?? 0,
-      discount: map['discount'] ?? 0,
+      platform: map['platform'],
+      newCustomer: map['new_customer'],
     );
   }
 
@@ -160,8 +108,11 @@ class OrderModel {
       'rider': rider?.toMap(),
       'branch': branch?.toMap(),
       'order_time': orderTime.toIso8601String(),
-      'delivery_time': deliveryTime?.toIso8601String(),
       'processing_time': processingTime?.toIso8601String(),
+      'shipped_time': shippedTime?.toIso8601String(),
+      'ready_time': readyTime?.toIso8601String(),
+      'pickup_time': pickupTime?.toIso8601String(),
+      'delivery_time': deliveryTime?.toIso8601String(),
       'status': status,
       'subtotal': subtotal,
       'tax': tax,
@@ -175,6 +126,8 @@ class OrderModel {
       'order_type': orderType,
       'loyalty_points': loyaltyPoints,
       'discount': discount,
+      'platform': platform,
+      'new_customer': newCustomer,
     };
   }
 
@@ -185,6 +138,9 @@ class OrderModel {
     BranchModel? branch,
     DateTime? orderTime,
     DateTime? processingTime,
+    DateTime? shippedTime,
+    DateTime? readyTime,
+    DateTime? pickupTime,
     DateTime? deliveryTime,
     String? status,
     num? subtotal,
@@ -197,8 +153,10 @@ class OrderModel {
     List? items,
     String? notes,
     String? orderType,
+    String? platform,
     num? loyaltyPoints,
     num? discount,
+    bool? newCustomer,
   }) {
     return OrderModel(
       id: id ?? this.id,
@@ -207,6 +165,9 @@ class OrderModel {
       branch: branch ?? this.branch,
       orderTime: orderTime ?? this.orderTime,
       processingTime: processingTime ?? this.processingTime,
+      shippedTime: shippedTime ?? this.shippedTime,
+      readyTime: readyTime ?? this.readyTime,
+      pickupTime: pickupTime ?? this.pickupTime,
       deliveryTime: deliveryTime ?? this.deliveryTime,
       status: status ?? this.status,
       subtotal: subtotal ?? this.subtotal,
@@ -221,6 +182,8 @@ class OrderModel {
       orderType: orderType ?? this.orderType,
       loyaltyPoints: loyaltyPoints ?? this.loyaltyPoints,
       discount: discount ?? this.discount,
+      platform: platform ?? this.platform,
+      newCustomer: newCustomer ?? this.newCustomer,
     );
   }
 }

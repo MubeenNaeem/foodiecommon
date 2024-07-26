@@ -41,23 +41,6 @@ class ProductModel {
     );
   }
 
-  ProductModel fromMapWithoutModels(Map<String, dynamic> map) {
-    return ProductModel(
-      id: map['id'],
-      name: map['name'],
-      price: map['price'],
-      description: map['description'],
-      variationGroups: List<VariationGroupModel>.from(
-        (map['variation_groups'] as List)
-            .map((x) => VariationGroupModel.fromMap(x)),
-      ),
-      image: map['image'],
-      badge: map['badge'],
-      category: category,
-      active: map['active'],
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,

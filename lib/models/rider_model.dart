@@ -34,21 +34,6 @@ class RiderModel {
     );
   }
 
-  RiderModel fromMapWithoutModels(Map<String, dynamic> map) {
-    return RiderModel(
-      id: map['id'],
-      name: map['name'],
-      phone: map['phone'],
-      email: map['email'],
-      branches: map['branches'],
-      ordersAssigned: map['ordersAssigned'] ?? 0,
-      ordersDelivered: map['ordersDelivered'] ?? 0,
-      lastDelivered: map['lastDelivered'] != null
-          ? DateTime.parse(map['lastDelivered'])
-          : null,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,

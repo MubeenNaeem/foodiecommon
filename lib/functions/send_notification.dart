@@ -2,38 +2,35 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-Future<void> sendNotification(
-  String serverKey, {
-  required String topic,
+Future<Map> sendNotification({
+  required String appId,
+  required String apiKey,
   required String title,
-  required String body,
+  required String message,
+  String? userId,
 }) async {
-  const postUrl = 'https://fcm.googleapis.com/fcm/send';
+  const url = 'https://api.onesignal.com/notifications?c=push';
 
-  String toParams = "/topics/$topic";
-
-  final data = {
-    "notification": {"body": body, "title": title},
-    "priority": "high",
-    "data": {
-      "click_action": "FLUTTER_NOTIFICATION_CLICK",
-      "id": "1",
-      "status": "done",
-      "sound": 'default',
-      "screen": topic,
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Basic $apiKey",
     },
-    "to": toParams
-  };
-
-  final headers = {
-    'content-type': 'application/json',
-    'Authorization': 'key=$serverKey'
-  };
-
-  await http.post(
-    Uri.parse(postUrl),
-    body: json.encode(data),
-    encoding: Encoding.getByName('utf-8'),
-    headers: headers,
+    body: jsonEncode(
+      {
+        "app_id": appId,
+        "headings": {"en": title},
+        "contents": {"en": message},
+        if (userId == null) "included_segments": ["all-users"],
+        if (userId != null)
+          "include_aliases": {
+            "external_id": [userId],
+          },
+        "target_channel": "push"
+      },
+    ),
   );
+
+  return jsonDecode(response.body);
 }

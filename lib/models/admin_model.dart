@@ -28,17 +28,6 @@ class AdminModel {
     );
   }
 
-  AdminModel fromMapWithoutModels(Map<String, dynamic> map) {
-    return AdminModel(
-      id: map['id'],
-      name: map['name'],
-      email: map['email'],
-      phone: map['phone'],
-      role: map['role'],
-      branch: branch,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,

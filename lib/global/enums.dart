@@ -8,6 +8,8 @@ enum AdminSidebarMenu {
   deals,
   riders,
   banners,
+  reviews,
+  notifications,
   stats,
   billing,
   admins,
